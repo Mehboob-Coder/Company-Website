@@ -1,0 +1,132 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Company</title>
+</head>
+<body>
+    <h2></h2>
+
+    <form method="post" action="{% url 'add_company' user.id %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Company</button>
+    </form>
+
+    {% if form.errors %}
+        <div class="error">
+            <p>Please correct the following errors:</p>
+            <ul>
+                {% for field, errors in form.errors.items %}
+                    <li>{{ field }}: {{ errors|join:", " }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    {% if messages %}
+        <div class="message">
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="company-list">
+        <h3>Your Registered Companies:</h3>
+        <ul>
+            {% for company in obj %}
+                <li>
+                    <a href="{% url 'comp_detail' company.id %}">{{ company.name }}, {{ company.comp_owner.username }}</a><br>
+                </li>
+            {% empty %}
+                <li>No companies registered.</li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'company_list' %}">View Company List</a>
+
+    </div>
+
+</body>
+</html> {% endcomment %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h2, h3 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #f9f9f9; /* Highlight on hover */
+        }
+        a {
+            text-decoration: none; /* Remove underline */
+            color: inherit; /* Inherit text color */
+        }
+        .error, .message {
+            margin: 10px 0;
+            color: red; /* Error messages in red */
+        }
+        .message {
+            color: green; /* Success messages in green */
+        }
+    </style>
+</head>
+<body>
+    <h2>Your Profile</h2>
+
+    <!-- Other profile information can be displayed here -->
+
+    <div class="company-list">
+        <h3>Your Registered Companies:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Company Name</th>
+                    <th>Owner</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for company in obj %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'comp_detail' company.id %}">{{ company.name }}</a>
+                        </td>
+                        <td>{{ company.comp_owner.username }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="2">No companies registered.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{% url 'company_list' %}">View Company List</a>
+    </div>
+
+</body>
+</html> 
+

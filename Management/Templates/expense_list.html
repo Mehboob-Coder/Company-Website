@@ -1,0 +1,78 @@
+ {% comment %} <!-- expense_list.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense List for {{ account.name }}</title>
+</head>
+<body>
+    <h1>Expense List for {{ account.name }}</h1>
+    
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for expense in expenses %}
+                <tr>
+                    <td>{{ expense.date }}</td>
+                    <td>{{ expense.amount }}</td>
+                    <td>{{ expense.approved|yesno:"Approved,Pending" }}</td>
+                    {% if expense.account.owner == user and not expense.approved %}
+                        <td>
+                            <a href="{% url 'approve_expense' expense.id %}">Approve/Reject</a>
+                        </td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'add_expense' account.id %}">Add New Expense</a>
+    {% comment %} <a href="{% url 'approve_expense' expense.id %}">Approved Expance</a> {% endcomment %}
+    
+{% comment %} </body>
+</html>  {% endcomment %} 
+
+
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense List</title>
+</head>
+<body>
+    <h1>Expense List for {{ account.name }}</h1>
+
+    <ul>
+        {% for expense in expenses %}
+            <li>
+                {{ expense.description }} - {{ expense.amount }}
+                <a href="{% url 'approve_expense' expense.id %}">Approve/Reject</a>
+            </li>
+        {% empty %}
+            <li>No expenses found.</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'add_expense' account.id %}">Add New Expense</a>
+    <li>
+      <a href="{% url 'account_detail' account.id %}">Back to Account Detail</a>
+  </li>
+</body>
+</html> 

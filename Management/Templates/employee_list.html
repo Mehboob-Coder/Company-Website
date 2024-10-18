@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Employee List</h2>
+<ul>
+    {% for employee in employees %}
+        <li>
+            <a href="{% url 'employee_detail' employee.id %}">{{ employee.name }}</a> - 
+            Address: {{ employee.address }} - 
+            Email: {{ employee.email }} - 
+            Phone: {{ employee.phone }} - 
+            Pay: {{ employee.pay }}
+        </li>
+    {% empty %}
+        <li>No employees available.</li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>

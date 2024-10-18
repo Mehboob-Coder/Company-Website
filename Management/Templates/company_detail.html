@@ -1,0 +1,151 @@
+{% comment %} <!-- comp_detail.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ company.name }} Details</title>
+</head>
+<body>
+    <h2>{{ company.name }}</h2>
+    <h3>Accounts:</h3>
+    
+
+     <ul>
+        {% for account in accounts %}
+            <li>
+                <a href="{% url 'account_detail' account.id %}">{{ account.name }}</a> - Balance: {{ account.balance }}
+            </li>
+        {% empty %}
+            <li>No accounts available for this company.</li>
+        {% endfor %}
+    </ul>
+   
+    <h2>Employees</h2>
+
+
+    <ul>
+        {% for employe in employees %}
+            <li>
+                Name: <a href="{% url 'employee_detail' employe.id %}">{{ employe.name }}</a> - 
+                Address: {{ employe.address }} - 
+                Email: {{ employe.email }} - 
+                Phone: {{ employe.phone }} - 
+                Pay: {{ employe.pay }}
+            </li>
+        {% empty %}
+            <li>No employees available for this company.</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'add_account' %}">Add another account</a><br>
+    <a href="{% url 'add_employee' %}">Add Employee</a><br>
+    <a href="{% url 'Userprofile' %}">Back to Profile</a><br>
+    <a href="{% url 'company_list' %}">View Company List</a><br>
+</body>
+</html>
+
+    
+    
+
+ {% endcomment %}
+
+
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ company.name }} Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h2, h3 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        a {
+            display: inline-block;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>{{ company.name }}</h2>
+    
+    <h3>Accounts:</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Account Name</th>
+                <th>Balance</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for account in accounts %}
+                <tr>
+                    <td><a href="{% url 'account_detail' account.id %}">{{ account.name }}</a></td>
+                    <td>{{ account.balance }}</td>
+                    <td><a href="{% url 'account_detail' account.id %}">View Details</a></td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="3">No accounts available for this company.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Employees</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Pay</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for employe in employees %}
+                <tr>
+                    <td><a href="{% url 'employee_detail' employe.id %}">{{ employe.name }}</a></td>
+                    <td>{{ employe.address }}</td>
+                    <td>{{ employe.email }}</td>
+                    <td>{{ employe.phone }}</td>
+                    <td>{{ employe.pay }}</td>
+                    <td><a href="{% url 'employee_detail' employe.id %}">View Details</a></td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6">No employees available for this company.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'add_account' %}">Add another account</a><br>
+    <a href="{% url 'add_employee' %}">Add Employee</a><br>
+    <a href="{% url 'Userprofile' %}">Back to Profile</a><br>
+    <a href="{% url 'company_list' %}">View Company List</a><br>
+    
+    
+</body>
+</html>
+

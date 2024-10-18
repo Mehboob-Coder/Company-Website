@@ -1,0 +1,96 @@
+{% comment %} <!DOCTYPE html
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company List</title>
+</head>
+<body>
+    <h2>Company List</h2>
+    
+    <div class="company-list">
+        <ul>
+            {% for company in companies %}
+                <li>
+                    <a href="{% url 'comp_detail' company.id %}"> {{ company.name }} &nbsp;,&nbsp;  Owned by:  {{ company.comp_owner }} </a><br>
+                </li>
+            {% empty %}
+                <li>No companies available.</li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    
+    
+</body>
+</html> {% endcomment %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h2 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #f9f9f9; /* Highlight on hover */
+        }
+        a {
+            text-decoration: none; /* Remove underline */
+            color: inherit; /* Inherit text color */
+        }
+    </style>
+</head>
+<body>
+    <h2>Company List</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Company Name</th>
+                <th>Owner</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for company in companies %}
+                <tr>
+                    <td>
+                        <a href="{% url 'comp_detail' company.id %}">{{ company.name }}</a>
+                    </td>
+                    <td>{{ company.comp_owner.username }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="2">No companies available.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'add_company' request.user.id %}">Add New Company</a>
+    <br>
+    <a href="{% url 'Userprofile' %}">Back to Profile</a>
+</body>
+</html>
+

@@ -1,0 +1,25 @@
+<!-- approve_expense.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Approve Expense</title>
+</head>
+<body>
+    <h1>Approve Expense</h1>
+    
+    <h2>Expense Details</h2>
+    <p>Date: {{ expense.date }}</p>
+    <p>Amount: {{ expense.amount }}</p>
+    <p>Status: {{ expense.approved|yesno:"Approved,Pending" }}</p>
+    
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" name="approve">Approve</button>
+        <button type="submit" name="reject">Reject</button>
+    </form>
+
+    <a href="{% url 'expense_list' expense.account.id %}">Back to Expense List</a>
+</body>
+</html>

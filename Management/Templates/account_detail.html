@@ -1,0 +1,218 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Detail</title>
+</head>
+<body>
+    <h1>Account Detail: {{ account.name }}</h1>
+    
+    <h2>Account: {{ account.name }}</h2>
+    
+    <p><strong>Account ID:</strong> {{ account.id }}</p>
+    <p><strong>Balance:</strong> {{ account.balance }}</p>
+    <p><strong>Company:</strong> {{ account.company.name }}</p>
+
+    
+    
+
+
+
+    <h3>Incomes</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Amount</th>
+          
+        </tr>
+      </thead>
+      <tbody>
+        {% for income in incomes %}
+          <tr>
+            <td>{{ income.date }}</td>
+            <td>{{ income.amount }}</td>
+            
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="3">No incomes found.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  
+    <h3>Expenses</h3>
+    
+    
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Amount</th>
+          <th>Approved</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for expense in expenses %}
+          <tr>
+            <td>{{ expense.date }}</td>
+            <td>{{ expense.amount }}</td>
+            <td>{{ expense.approved|yesno:"Yes,No" }}</td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="3">No expenses found.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+{% if company %}
+<a href="{% url 'comp_detail' company.id %}">Back to Company Detail</a><br>
+{% else %}
+<p>Company information not available.</p>
+{% endif %}
+    
+    <a href="{% url 'Userprofile' %}">Back to Profile</a><br>
+    <li><a href="{% url 'add_income' %}">Add Income</a></li><br>
+    <a href="{% url 'add_expense' account.id %}">Add Expense</a>
+    <a href="{% url 'expense_list' account.id %}">View All Expenses</a>
+</body>
+</html> {% endcomment %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Detail</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        a {
+            display: inline-block;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Account Detail: {{ account.name }}</h1>
+    
+    <h2>Account Information</h2>
+    <p><strong>Account ID:</strong> {{ account.id }}</p>
+    <p><strong>Balance:</strong> {{ account.balance }}</p>
+    <p><strong>Company:</strong> {{ account.company.name }}</p>
+
+    <h3>Incomes</h3>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for income in incomes %}
+                <tr>
+                    <td>{{ income.date }}</td>
+                    <td>{{ income.amount }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="2">No incomes found.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <li><a href="{% url 'add_income' %}">Add Income</a></li>
+  
+    <h3>Expenses</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Approved</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for expense in expenses %}
+                <tr>
+                    <td>{{ expense.date }}</td>
+                    <td>{{ expense.amount }}</td>
+                    <td>{{ expense.approved|yesno:"Yes,No" }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="3">No expenses found.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Approved Reports</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Company</th>
+            <th>Data</th>
+            <th>Date</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for report in approved_reports %}
+            <tr>
+              <td>{{ report.company.name }}</td>
+              <td>{{ report.data }}</td>
+                <td>{{ report.date }}</td>
+                <td>{{ report.status }}</td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="3">No approved reports found.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+    <li><a href="{% url 'add_expense' account.id %}">Add Expense</a></li>
+    {% if company %}
+    <li><a href="{% url 'comp_detail' company.id %}">Back to Company Detail</a></li>
+    {% else %}
+        <p>Company information not available.</p>
+    {% endif %}
+    
+    <li><a href="{% url 'Userprofile' %}">Back to Profile</a></li>
+    <li><a href="{% url 'expense_list' account.id %}">View All Expenses</a></li>
+
+
+    <li><a href="{% url 'report_list' %}">View Approved Reports</a></li>
+    <li><a href="{% url 'create_report' %}">Create a New Report</a></li>
+    <li><a href="{% url 'review_reports' %}">Review Pending Reports</a></li>
+    <li><a href="{% url 'rejected_reports' %}">View Rejected Reports</a></li>
+    
+</body>
+</html>
+
